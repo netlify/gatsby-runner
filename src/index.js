@@ -52,7 +52,6 @@ async function run() {
       inputPath.path
     )}`;
     const originalFilename = path.join(outputDir, originalImage);
-    console.log("exists: ", existsSync(cacheDir));
 
     const jobData = {
       originalImage,
@@ -64,6 +63,7 @@ async function run() {
     await Promise.all(
       args.operations.map((image) => {
         const [hash] = image.outputPath.split("/");
+        console.log("writing data to", path.join(jobDirname, `${hash}.json`));
         writeJSON(path.join(jobDirname, `${hash}.json`), {
           ...jobData,
           args: image.args,
@@ -98,6 +98,7 @@ async function run() {
             },
           });
         } catch (error) {
+          console.error(error);
           gatsbyProcess.send({
             type: `JOB_FAILED`,
             payload: { id: message.payload.id, error: error.toString() },
