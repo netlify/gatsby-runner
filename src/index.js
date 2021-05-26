@@ -4,7 +4,6 @@
 const execa = require("execa");
 const path = require("path");
 const { copy, writeJSON, ensureDir } = require("fs-extra");
-const { existsSync } = require("fs");
 
 const MESSAGE_TYPES = {
   LOG_ACTION: `LOG_ACTION`,
@@ -63,7 +62,6 @@ async function run() {
     await Promise.all(
       args.operations.map((image) => {
         const [hash] = image.outputPath.split("/");
-        console.log("writing data to", path.join(jobDirname, `${hash}.json`));
         writeJSON(path.join(jobDirname, `${hash}.json`), {
           ...jobData,
           args: image.args,
