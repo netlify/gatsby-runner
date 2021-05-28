@@ -1,4 +1,7 @@
 module.exports = {
+  flags: {
+    FUNCTIONS: true,
+  },
   plugins: [
     `gatsby-plugin-emotion`,
     `gatsby-plugin-netlify`,
