@@ -33,6 +33,7 @@
   "scripts": {
     "develop": "gatsby develop",
     "build": "node ../..",
-    "start": "npm run develop"
+    "start": "npm run develop",
+    "postinstall": "cd ../../ && npm ci"
   }
 }
