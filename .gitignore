@@ -1,1 +1,5 @@
 node_modules
+.cache
+.netlify
+public
+e2e-tests/using-gatsby-image/package-lock.json
