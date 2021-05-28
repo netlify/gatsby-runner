@@ -11,6 +11,7 @@
   "dependencies": {
     "@netlify/functions": "^0.7.2",
     "execa": "^5.0.0",
+    "fastq": "^1.11.0",
     "fs-extra": "^10.0.0"
   }
 }

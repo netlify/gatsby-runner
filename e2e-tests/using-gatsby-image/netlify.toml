@@ -1,0 +1,11 @@
+[functions.gatsby-image]
+external_node_modules = ["electron", "keyv", "mozjpeg", "pngquant-bin"]
+included_files = [".cache/caches/gatsby-runner/**/*.json"]
+
+[[ plugins ]]
+package = "@netlify/plugin-gatsby"
+
+[[ redirects ]]
+from = "/static/:sourceDigest/:queryDigest/:filename"
+to = "/.netlify/functions/gatsby-image"
+status = 200

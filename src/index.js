@@ -3,7 +3,8 @@
 
 const execa = require("execa");
 const path = require("path");
-const { copy, writeJSON, ensureDir } = require("fs-extra");
+const fastq = require("fastq");
+const { writeJSON, ensureDir, copySync } = require("fs-extra");
 
 const MESSAGE_TYPES = {
   LOG_ACTION: `LOG_ACTION`,
@@ -56,7 +57,12 @@ async function run() {
       originalImage,
       pluginOptions: args.pluginOptions,
     };
-    await copy(inputPath.path, originalFilename);
+    try {
+      // Async caused race condition errors
+      copySync(inputPath.path, originalFilename);
+    } catch (e) {
+      console.error("error copying", inputPath.path, "to", originalFilename, e);
+    }
     await ensureDir(jobDirname);
 
     await Promise.all(
@@ -69,6 +75,8 @@ async function run() {
       })
     );
   }
+
+  const queue = fastq.promise(handleImage, 10);
 
   async function messageHandler(message) {
     switch (message.type) {
@@ -87,16 +95,17 @@ async function run() {
           return;
         }
         try {
-          handleImage(message.payload);
-          gatsbyProcess.send({
-            type: `JOB_COMPLETED`,
-            payload: {
-              id: message.payload.id,
-              result: {},
-            },
-          });
+          queue.push(message.payload).then(() =>
+            gatsbyProcess.send({
+              type: `JOB_COMPLETED`,
+              payload: {
+                id: message.payload.id,
+                result: {},
+              },
+            })
+          );
         } catch (error) {
-          console.error(error);
+          console.error("job failed", error);
           gatsbyProcess.send({
             type: `JOB_FAILED`,
             payload: { id: message.payload.id, error: error.toString() },
