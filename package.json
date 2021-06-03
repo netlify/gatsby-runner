@@ -22,5 +22,8 @@
   },
   "scripts": {
     "release": "release-it"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
