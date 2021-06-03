@@ -6,6 +6,9 @@
   "bin": {
     "gatsby-runner": "src/index.js"
   },
+  "files": [
+    "./src"
+  ],
   "license": "MIT",
   "private": false,
   "dependencies": {
