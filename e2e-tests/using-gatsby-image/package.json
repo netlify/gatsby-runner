@@ -24,8 +24,8 @@
     "react-dom": "^16.9.0",
     "react-icons": "^3.11.0",
     "react-typography": "^0.16.19",
-    "typeface-oswald": "0.0.75",
-    "typeface-pt-sans": "0.0.72",
+    "typeface-oswald": "1.1.13",
+    "typeface-pt-sans": "1.1.13",
     "typography": "^0.16.19"
   },
   "license": "MIT",
