@@ -1,6 +1,6 @@
 {
   "name": "@netlify/gatsby-runner",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "CLI runner for Gatsby",
   "bin": {
     "gatsby-runner": "dist/cli.js"
