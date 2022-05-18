@@ -1,11 +1,11 @@
-import React from "react"
-import { GatsbyImage, getImage } from "gatsby-plugin-image"
-import styled from "@emotion/styled"
+import React from 'react'
+import { GatsbyImage, getImage } from 'gatsby-plugin-image'
+import styled from '@emotion/styled'
 
-import { mq, gutter, offset, offsetXxl } from "../utils/presets"
-import { options, scale } from "../utils/typography"
+import { mq, gutter, offset, offsetXxl } from '../utils/presets'
+import { options, scale } from '../utils/typography'
 
-const Buffer = require("buffer/").Buffer
+const Buffer = require('buffer/').Buffer
 
 const OuterContainer = styled(`div`)`
   background: #fff;
@@ -86,10 +86,10 @@ const Badge = styled(`span`)`
   right: 0.625rem;
 `
 
-const ImageGallery = edges => (
+const ImageGallery = (edges) => (
   <OuterContainer>
     <Grid>
-      {edges.images.map(image => {
+      {edges.images.map((image) => {
         const img = getImage(image.node.localFile)
         console.log({ image })
         const fallbackString =

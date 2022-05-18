@@ -1,4 +1,4 @@
-const { createRemoteFileNode } = require(`gatsby-source-filesystem`);
+const { createRemoteFileNode } = require(`gatsby-source-filesystem`)
 
 exports.onCreateNode = async (
   {
@@ -19,16 +19,16 @@ exports.onCreateNode = async (
       createNode,
       createNodeId: createContentDigest,
       reporter,
-    });
+    })
     if (fileNode) {
-      const fileNodeLink = `${nodeName}___NODE`;
-      node[fileNodeLink] = fileNode.id;
+      const fileNodeLink = `${nodeName}___NODE`
+      node[fileNodeLink] = fileNode.id
     }
   }
-};
+}
 
 exports.createSchemaCustomization = ({ actions }) => {
-  const { createTypes } = actions;
+  const { createTypes } = actions
 
   createTypes(`
     type UnsplashImagesYaml implements Node {
@@ -39,5 +39,5 @@ exports.createSchemaCustomization = ({ actions }) => {
       localFile: File @link(from: "localFile___NODE")
     }
 
-  `);
-};
+  `)
+}

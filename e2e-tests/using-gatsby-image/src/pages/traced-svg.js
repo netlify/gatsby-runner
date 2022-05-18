@@ -1,11 +1,11 @@
-import React from "react"
-import { graphql } from "gatsby"
-import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import React from 'react'
+import { graphql } from 'gatsby'
+import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 
-import PageTitle from "../components/page-title"
-import ImageGallery from "../components/image-gallery"
+import PageTitle from '../components/page-title'
+import ImageGallery from '../components/image-gallery'
 
-import Layout from "../components/layout"
+import Layout from '../components/layout'
 
 const TracedSVG = ({ data, location }) => (
   <Layout
@@ -26,7 +26,7 @@ const TracedSVG = ({ data, location }) => (
       image.
     </p>
     <p>
-      To make use of this technique, pass <code>placeholder: TRACED_SVG</code>{" "}
+      To make use of this technique, pass <code>placeholder: TRACED_SVG</code>{' '}
       to the resolver, or <code>placeholder="tracedSVG"</code> with the
       StaticImage component.
     </p>

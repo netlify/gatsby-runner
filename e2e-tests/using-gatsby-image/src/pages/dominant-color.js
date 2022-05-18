@@ -1,9 +1,9 @@
-import React from "react"
-import { graphql } from "gatsby"
-import { GatsbyImage, getImage } from "gatsby-plugin-image"
-import ImageGallery from "../components/image-gallery"
-import PageTitle from "../components/page-title"
-import Layout from "../components/layout"
+import React from 'react'
+import { graphql } from 'gatsby'
+import { GatsbyImage, getImage } from 'gatsby-plugin-image'
+import ImageGallery from '../components/image-gallery'
+import PageTitle from '../components/page-title'
+import Layout from '../components/layout'
 
 const DominantColor = ({ data, location }) => (
   <Layout

@@ -1,10 +1,10 @@
-import React from "react"
-import { Link } from "gatsby"
-import { css } from "@emotion/react"
-import styled from "@emotion/styled"
-import { MdLink } from "react-icons/md"
-import { scale, rhythm, options } from "../utils/typography"
-import { mq, elevation, gutter, colors, animation } from "../utils/presets"
+import React from 'react'
+import { Link } from 'gatsby'
+import { css } from '@emotion/react'
+import styled from '@emotion/styled'
+import { MdLink } from 'react-icons/md'
+import { scale, rhythm, options } from '../utils/typography'
+import { mq, elevation, gutter, colors, animation } from '../utils/presets'
 
 const linkStyle = css`
   font-family: ${options.headerFontFamily.join(`,`)};
@@ -48,7 +48,7 @@ const assignActiveStyles = ({ isPartiallyCurrent }) =>
             &:before {
               background-color: #000;
               bottom: -0.0625em;
-              content: "";
+              content: '';
               height: 0.125em;
               left: 0;
               position: absolute;
@@ -134,7 +134,7 @@ const NavItem = ({ title, to }) => (
     css={css`
       &:after {
         color: ${colors.gatsby};
-        content: " ╱ ";
+        content: ' ╱ ';
         font-weight: 300;
         opacity: 0.5;
         font-size: 50%;

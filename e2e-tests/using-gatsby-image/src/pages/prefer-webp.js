@@ -1,9 +1,9 @@
-import React from "react"
-import { graphql } from "gatsby"
-import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import React from 'react'
+import { graphql } from 'gatsby'
+import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 
-import PageTitle from "../components/page-title"
-import Layout from "../components/layout"
+import PageTitle from '../components/page-title'
+import Layout from '../components/layout'
 
 const PreferWebp = ({ data, location }) => (
   <Layout
@@ -25,8 +25,8 @@ const PreferWebp = ({ data, location }) => (
       <strong>gatsby-plugin-sharp</strong>.
     </p>
     <p>
-      The use of <strong>WebP</strong> is controlled by the{" "}
-      <strong>formats</strong> array and can be configured via your{" "}
+      The use of <strong>WebP</strong> is controlled by the{' '}
+      <strong>formats</strong> array and can be configured via your{' '}
       <strong>gatsby-config.js</strong> file if you want to apply it to all
       images in your site. Alternatively, it can be part of your GraphQL query
       or passed via props when using StaticImage. <strong>AVIF</strong> is also

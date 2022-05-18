@@ -1,6 +1,6 @@
-import Typography from "typography"
+import Typography from 'typography'
 
-import { colors, animation } from "./presets"
+import { colors, animation } from './presets'
 
 const bodyFontFamily = [
   `-apple-system`,
@@ -39,7 +39,7 @@ const _options = {
   headerFontFamily: bodyFontFamily,
   overrideStyles: ({ rhythm }, options) => {
     return {
-      "h1, h2, h3, h4, h5, h6": {
+      'h1, h2, h3, h4, h5, h6': {
         letterSpacing: `-.0125em`,
         marginTop: rhythm(2),
       },
@@ -50,7 +50,7 @@ const _options = {
         textDecoration: `none`,
         transition: `${animation.speedDefault} ${animation.curveDefault}`,
       },
-      "a:hover": {
+      'a:hover': {
         backgroundColor: colors.ui.light,
       },
       code: {

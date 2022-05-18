@@ -1,11 +1,11 @@
-import React from "react"
-import { GatsbyImage } from "gatsby-plugin-image"
-import styled from "@emotion/styled"
+import React from 'react'
+import { GatsbyImage } from 'gatsby-plugin-image'
+import styled from '@emotion/styled'
 
-import Navigation from "./navigation"
-import { rhythm } from "../utils/typography"
-import logo from "../images/monogram.svg"
-import { mq, elevation, offset, offsetXxl, gutter } from "../utils/presets"
+import Navigation from './navigation'
+import { rhythm } from '../utils/typography'
+import logo from '../images/monogram.svg'
+import { mq, elevation, offset, offsetXxl, gutter } from '../utils/presets'
 
 const Container = styled(`div`)`
   background: #fff;

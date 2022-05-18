@@ -1,12 +1,12 @@
-import React from "react"
-import { graphql } from "gatsby"
-import styled from "@emotion/styled"
-import { css } from "@emotion/css"
-import { FaGithub } from "react-icons/fa"
+import React from 'react'
+import { graphql } from 'gatsby'
+import styled from '@emotion/styled'
+import { css } from '@emotion/css'
+import { FaGithub } from 'react-icons/fa'
 
-import Layout from "../components/layout"
-import { colors } from "../utils/presets"
-import { getImage } from "gatsby-plugin-image"
+import Layout from '../components/layout'
+import { colors } from '../utils/presets'
+import { getImage } from 'gatsby-plugin-image'
 
 const FeatureList = styled(`ul`)`
   margin-left: 0;

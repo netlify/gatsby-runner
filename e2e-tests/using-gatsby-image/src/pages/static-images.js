@@ -1,8 +1,8 @@
-import React from "react"
-import { StaticImage } from "gatsby-plugin-image"
-import PageTitle from "../components/page-title"
+import React from 'react'
+import { StaticImage } from 'gatsby-plugin-image'
+import PageTitle from '../components/page-title'
 
-import Layout from "../components/layout"
+import Layout from '../components/layout'
 
 const StaticImages = ({ location }) => (
   <Layout location={location}>
@@ -17,7 +17,7 @@ const StaticImages = ({ location }) => (
       change you can use the <strong>StaticImage</strong> component. It gives
       you the same benefits of <strong>GatsbyImage</strong> with the ease of use
       of an img tag. The <code>src</code> can be a relative path or a URL. All
-      options available via the GraphQL resolver can be passed via props to{" "}
+      options available via the GraphQL resolver can be passed via props to{' '}
       <strong>StaticImage</strong>.
     </p>
     <StaticImage
