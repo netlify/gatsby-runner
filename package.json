@@ -13,7 +13,7 @@
     }
   },
   "files": [
-    "./src"
+    "dist"
   ],
   "license": "MIT",
   "private": false,
