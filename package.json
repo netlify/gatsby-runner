@@ -6,10 +6,12 @@
     "gatsby-runner": "dist/cli.js"
   },
   "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "require": "./dist/index.js"
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
     }
   },
   "files": [
@@ -34,7 +36,7 @@
     "gatsby-plugin-sharp": "*"
   },
   "scripts": {
-    "build": "tsup-node src/index.ts src/cli.ts --target node14 --dts src/index.ts",
+    "build": "tsup-node src/index.ts src/cli.ts --target node14 --format=cjs,esm --dts src/index.ts",
     "release": "release-it"
   },
   "publishConfig": {
