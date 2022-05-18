@@ -56,8 +56,8 @@ const downloadFile = async (
 const MAX_RESPONSE_SIZE = 6291456
 
 async function imageHandler(event) {
-  const [, , fileHash, queryHash, fileName] = event.path.split('/')
-  console.log({ fileHash, queryHash, fileName })
+  const url = new URL(event.rawUrl)
+  const [, , fileHash, queryHash] = url.pathname.split('/')
   let imageData
   const dataFile = resolve(
     `.cache/caches/gatsby-runner/${fileHash}/${queryHash}.json`
@@ -80,11 +80,9 @@ async function imageHandler(event) {
     }
   }
 
-  const pathName = `${fileHash}/original/${imageData.originalImage}`
+  const pathName = `${fileHash}/og/im/${imageData.originalImage}`
 
-  const originalImageURL = `${
-    process.env.DEPLOY_URL || `http://${event.headers.host}`
-  }/static/${pathName}`
+  const originalImageURL = new URL(`/static/${pathName}`, url).toString()
 
   console.log('Downloading original image', originalImageURL)
 

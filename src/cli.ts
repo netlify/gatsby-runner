@@ -49,7 +49,7 @@ async function run() {
     const originalImage = `${inputPath.contentDigest}${path.extname(
       inputPath.path
     )}`
-    const originalFilename = path.join(outputDir, 'original', originalImage)
+    const originalFilename = path.join(outputDir, 'og', 'im', originalImage)
 
     const jobData = {
       originalImage,
