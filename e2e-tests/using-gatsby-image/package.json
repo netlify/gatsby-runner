@@ -10,7 +10,7 @@
     "@netlify/plugin-gatsby": "latest",
     "buffer": "^6.0.3",
     "emotion": "^11.0.0",
-    "gatsby": "next",
+    "gatsby": "^4.15.0-next.2",
     "gatsby-plugin-emotion": "next",
     "gatsby-plugin-image": "next",
     "gatsby-plugin-netlify": "next",

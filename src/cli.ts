@@ -1,10 +1,9 @@
 #!/usr/bin/env node
-// @ts-check
 
-const execa = require("execa");
-const path = require("path");
-const fastq = require("fastq");
-const { writeJSON, ensureDir, copySync } = require("fs-extra");
+import execa from 'execa'
+import path from 'path'
+import fastq from 'fastq'
+import { writeJSON, ensureDir, copySync } from 'fs-extra'
 
 const MESSAGE_TYPES = {
   LOG_ACTION: `LOG_ACTION`,
@@ -15,84 +14,76 @@ const MESSAGE_TYPES = {
   ACTIVITY_END: `ACTIVITY_END`,
   ACTIVITY_SUCCESS: `ACTIVITY_SUCCESS`,
   ACTIVITY_ERROR: `ACTIVITY_ERROR`,
-};
+}
 
 async function run() {
-  let gatsbyCli;
+  let gatsbyCli: string
   try {
-    gatsbyCli = require.resolve("gatsby/cli", { paths: [process.cwd()] });
+    gatsbyCli = require.resolve('gatsby/cli', { paths: [process.cwd()] })
   } catch (e) {
-    console.error("Gatsby path not found", e);
-    return;
+    console.error('Gatsby path not found', e)
+    return
   }
 
-  const [, , ...args] = process.argv;
+  const [, , ...args] = process.argv
 
-  const cacheDir = path.join(
-    process.cwd(),
-    ".cache",
-    "caches",
-    "gatsby-runner"
-  );
-  const gatsbyProcess = execa.node(gatsbyCli, ["build", ...args], {
+  const cacheDir = path.join(process.cwd(), '.cache', 'caches', 'gatsby-runner')
+  const gatsbyProcess = execa.node(gatsbyCli, ['build', ...args], {
     env: {
-      ENABLE_GATSBY_EXTERNAL_JOBS: "1",
+      ENABLE_GATSBY_EXTERNAL_JOBS: '1',
+      FORCE_COLOR: '1',
     },
-  });
+  })
+
+  gatsbyProcess.stdout.pipe(process.stdout)
 
   async function handleImage({
     outputDir,
     inputPaths: { 0: inputPath },
     args,
   }) {
-    await ensureDir(cacheDir);
+    await ensureDir(cacheDir)
 
-    const jobDirname = path.join(cacheDir, path.basename(outputDir));
+    const jobDirname = path.join(cacheDir, path.basename(outputDir))
     const originalImage = `${inputPath.contentDigest}${path.extname(
       inputPath.path
-    )}`;
-    const originalFilename = path.join(outputDir, originalImage);
+    )}`
+    const originalFilename = path.join(outputDir, 'original', originalImage)
 
     const jobData = {
       originalImage,
       pluginOptions: args.pluginOptions,
-    };
+    }
     try {
       // Async caused race condition errors
-      copySync(inputPath.path, originalFilename);
+      copySync(inputPath.path, originalFilename)
     } catch (e) {
-      console.error("error copying", inputPath.path, "to", originalFilename, e);
+      console.error('error copying', inputPath.path, 'to', originalFilename, e)
     }
-    await ensureDir(jobDirname);
+    await ensureDir(jobDirname)
 
     await Promise.all(
       args.operations.map((image) => {
-        const [hash] = image.outputPath.split("/");
+        const [hash] = image.outputPath.split('/')
         writeJSON(path.join(jobDirname, `${hash}.json`), {
           ...jobData,
           args: image.args,
-        });
+        })
       })
-    );
+    )
   }
 
-  const queue = fastq.promise(handleImage, 10);
+  const queue = fastq.promise(handleImage, 10)
 
   async function messageHandler(message) {
     switch (message.type) {
-      case MESSAGE_TYPES.LOG_ACTION: {
-        if (message.action.type === "LOG") {
-          console.log(message.action.payload.text);
-        }
-        break;
-      }
       case MESSAGE_TYPES.JOB_CREATED: {
-        if (message.payload.name !== "IMAGE_PROCESSING") {
+        if (message.payload.name !== 'IMAGE_PROCESSING') {
           gatsbyProcess.send({
             type: `JOB_NOT_WHITELISTED`,
             payload: { id: message.payload.id },
-          });
-          return;
+          })
+          return
         }
         try {
           queue.push(message.payload).then(() =>
@@ -103,34 +94,34 @@ async function run() {
                 result: {},
               },
             })
-          );
+          )
         } catch (error) {
-          console.error("job failed", error);
+          console.error('job failed', error)
           gatsbyProcess.send({
             type: `JOB_FAILED`,
             payload: { id: message.payload.id, error: error.toString() },
-          });
+          })
         }
 
-        break;
+        break
       }
 
       default: {
-        console.log("Ignoring", message.type);
+        console.log('Ignoring', message.type)
       }
     }
   }
 
-  gatsbyProcess.on("exit", async (code) => {
-    console.log("Gatsby exited with code", code);
-    process.exit(code);
-  });
+  gatsbyProcess.on('exit', async (code) => {
+    console.log('Gatsby exited with code', code)
+    process.exit(code)
+  })
 
-  gatsbyProcess.on("message", messageHandler);
+  gatsbyProcess.on('message', messageHandler)
 }
 
 try {
-  run();
+  run()
 } catch (e) {
-  console.error(e);
+  console.error(e)
 }

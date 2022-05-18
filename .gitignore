@@ -3,3 +3,5 @@ node_modules
 .netlify
 public
 e2e-tests/using-gatsby-image/package-lock.json
+.DS_Store
+dist

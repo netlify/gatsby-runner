@@ -2,9 +2,15 @@
   "name": "@netlify/gatsby-runner",
   "version": "0.0.2",
   "description": "CLI runner for Gatsby",
-  "main": "src/index.js",
   "bin": {
-    "gatsby-runner": "src/index.js"
+    "gatsby-runner": "src/cli.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js"
+    }
   },
   "files": [
     "./src"
@@ -12,15 +18,23 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "@netlify/functions": "^0.7.2",
+    "@netlify/functions": "^1.0.0",
     "execa": "^5.0.0",
     "fastq": "^1.11.0",
     "fs-extra": "^10.0.0"
   },
   "devDependencies": {
-    "release-it": "^14.7.0"
+    "@types/fs-extra": "^9.0.13",
+    "@types/node": "^17.0.34",
+    "gatsby-plugin-sharp": "^4.14.1",
+    "release-it": "^15.0.0",
+    "tsup": "^5.12.8"
+  },
+  "peerDependencies": {
+    "gatsby-plugin-sharp": "*"
   },
   "scripts": {
+    "build": "tsup-node src/index.ts src/cli.ts --target node14 --dts src/index.ts",
     "release": "release-it"
   },
   "publishConfig": {
