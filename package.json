@@ -1,9 +1,9 @@
 {
   "name": "@netlify/gatsby-runner",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "CLI runner for Gatsby",
   "bin": {
-    "gatsby-runner": "src/cli.js"
+    "gatsby-runner": "dist/cli.js"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
