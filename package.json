@@ -37,7 +37,8 @@
   },
   "scripts": {
     "build": "tsup-node src/index.ts src/cli.ts --target node14 --format=cjs,esm --dts src/index.ts",
-    "release": "release-it"
+    "release": "release-it",
+    "prepublishOnly": "npm run build"
   },
   "publishConfig": {
     "access": "public"

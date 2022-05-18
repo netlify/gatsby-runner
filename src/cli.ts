@@ -17,6 +17,7 @@ const MESSAGE_TYPES = {
 }
 
 async function run() {
+  let imageCount = 0
   let gatsbyCli: string
   try {
     gatsbyCli = require.resolve('gatsby/cli', { paths: [process.cwd()] })
@@ -61,7 +62,7 @@ async function run() {
       console.error('error copying', inputPath.path, 'to', originalFilename, e)
     }
     await ensureDir(jobDirname)
-
+    imageCount++
     await Promise.all(
       args.operations.map((image) => {
         const [hash] = image.outputPath.split('/')
@@ -114,6 +115,11 @@ async function run() {
 
   gatsbyProcess.on('exit', async (code) => {
     console.log('Gatsby exited with code', code)
+    console.log(
+      `Deferring processing ${imageCount} image${
+        imageCount === 1 ? '' : 's'
+      } until runtime`
+    )
     process.exit(code)
   })
 

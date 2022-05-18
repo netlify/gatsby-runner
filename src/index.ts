@@ -1,6 +1,6 @@
 import { builder } from '@netlify/functions'
 import { processFile } from 'gatsby-plugin-sharp/process-file'
-import path, { join } from 'path'
+import path, { join, resolve } from 'path'
 import { createWriteStream, existsSync, readFileSync, statSync } from 'fs'
 import http from 'http'
 import https from 'https'
@@ -59,8 +59,11 @@ async function imageHandler(event) {
   const [, , fileHash, queryHash, fileName] = event.path.split('/')
   console.log({ fileHash, queryHash, fileName })
   let imageData
-  const dataFile = `${process.env.LAMBDA_TASK_ROOT}/src/.cache/caches/gatsby-runner/${fileHash}/${queryHash}.json`
+  const dataFile = resolve(
+    `.cache/caches/gatsby-runner/${fileHash}/${queryHash}.json`
+  )
   if (!existsSync(dataFile)) {
+    console.log(`Data file ${dataFile} does not exist`)
     return {
       statusCode: 404,
       body: 'Not found',
