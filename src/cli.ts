@@ -107,7 +107,7 @@ async function run() {
       }
 
       default: {
-        console.log('Ignoring', message.type)
+        // console.log('Ignoring', message.type)
       }
     }
   }
