@@ -5,7 +5,7 @@ import path from 'path'
 import fastq from 'fastq'
 import { writeJSON, ensureDir, copy } from 'fs-extra'
 import { cpuCoreCount } from 'gatsby-core-utils'
-
+import { greenBright } from 'chalk'
 const MESSAGE_TYPES = {
   LOG_ACTION: `LOG_ACTION`,
   JOB_CREATED: `JOB_CREATED`,
@@ -22,6 +22,10 @@ async function run() {
   let origCount = 0
   let gatsbyCli: string
   const copyingFiles = new Map<string, Promise<void>>()
+  console.log(
+    `Building site with the experimental ${greenBright`Netlify Gatsby build runner`}`
+  )
+
   try {
     gatsbyCli = require.resolve('gatsby/cli', { paths: [process.cwd()] })
   } catch (e) {
@@ -29,8 +33,7 @@ async function run() {
     return
   }
 
-  const cores = cpuCoreCount(true)
-  console.log(`Detected ${cores} physical cores`)
+  const cores = cpuCoreCount()
 
   const [, , ...args] = process.argv
 
@@ -134,6 +137,11 @@ async function run() {
         imageCount === 1 ? '' : 's'
       } until runtime. Moving ${origCount} originals`
     )
+
+    console.log(
+      'Built site using the experimental Netlify Gatsby build runner. Please report any issues.'
+    )
+
     process.exit(code)
   })
 

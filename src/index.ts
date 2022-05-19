@@ -1,4 +1,4 @@
-import { builder } from '@netlify/functions'
+import { builder, HandlerEvent } from '@netlify/functions'
 import { processFile } from 'gatsby-plugin-sharp/process-file'
 import path, { join, resolve } from 'path'
 import { createWriteStream, existsSync, readFileSync, statSync } from 'fs'
@@ -55,8 +55,9 @@ const downloadFile = async (
 // 6MB is hard max Lambda response size
 const MAX_RESPONSE_SIZE = 6291456
 
-async function imageHandler(event) {
+async function imageHandler(event: HandlerEvent) {
   const url = new URL(event.rawUrl)
+  console.log(`[${event.httpMethod}] ${url.pathname}`)
   const [, , fileHash, queryHash] = url.pathname.split('/')
   let imageData
   const dataFile = resolve(
