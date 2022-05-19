@@ -3,7 +3,7 @@
 import execa from 'execa'
 import path from 'path'
 import fastq from 'fastq'
-import { writeJSON, ensureDir, copy } from 'fs-extra'
+import { writeJSON, ensureDir, copy, writeFile } from 'fs-extra'
 import { cpuCoreCount } from 'gatsby-core-utils'
 import { greenBright } from 'chalk'
 const MESSAGE_TYPES = {
@@ -38,6 +38,8 @@ async function run() {
   const [, , ...args] = process.argv
 
   const cacheDir = path.join(process.cwd(), '.cache', 'caches', 'gatsby-runner')
+  await ensureDir(cacheDir)
+  await writeFile(path.join(cacheDir, '.did-run'), '')
   const gatsbyProcess = execa.node(gatsbyCli, ['build', ...args], {
     env: {
       ENABLE_GATSBY_EXTERNAL_JOBS: '1',
@@ -52,8 +54,6 @@ async function run() {
     inputPaths: { 0: inputPath },
     args,
   }) {
-    await ensureDir(cacheDir)
-
     const jobDirname = path.join(cacheDir, path.basename(outputDir))
     const originalImage = `${inputPath.contentDigest}${path.extname(
       inputPath.path
