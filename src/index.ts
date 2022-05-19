@@ -1,29 +1,25 @@
 import type { OnBuild } from '@netlify/build'
 import { existsSync } from 'fs'
 import { writeFile } from 'fs-extra'
-import { join, resolve } from 'path'
+import { posix as path } from 'path'
 import { greenBright } from 'chalk'
 
 export const onBuild: OnBuild = async ({ constants, netlifyConfig }) => {
-  if (
-    !existsSync(
-      resolve(
-        constants.PUBLISH_DIR,
-        '..',
-        '.cache',
-        'caches',
-        'gatsby-runner',
-        '.did-run'
-      )
-    )
-  ) {
+  const cacheDir = path.resolve(
+    constants.PUBLISH_DIR,
+    '..',
+    '.cache',
+    'caches',
+    'gatsby-runner'
+  )
+  if (!existsSync(path.join(cacheDir, '.did-run'))) {
     console.log(
       `The build runner did not run. Please change your build command to ${greenBright`gatsby-runner`} and try again`
     )
     return
   }
   await writeFile(
-    join(constants.INTERNAL_FUNCTIONS_SRC, 'gatsby-image.ts'),
+    path.join(constants.INTERNAL_FUNCTIONS_SRC, 'gatsby-image.ts'),
     `export { handler } from '@netlify/gatsby-runner'`
   )
   netlifyConfig.functions['gatsby-image'] = {
@@ -33,7 +29,7 @@ export const onBuild: OnBuild = async ({ constants, netlifyConfig }) => {
       'pngquant-bin',
       'gatsby-core-utils',
     ],
-    included_files: ['.cache/caches/gatsby-runner/**/*.json'],
+    included_files: [path.join(cacheDir, '**', '*.json')],
   }
   netlifyConfig.redirects.push({
     from: '/static/:sourceDigest/:queryDigest/:filename',

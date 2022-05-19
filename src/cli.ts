@@ -39,7 +39,6 @@ async function run() {
 
   const cacheDir = path.join(process.cwd(), '.cache', 'caches', 'gatsby-runner')
   await ensureDir(cacheDir)
-  await writeFile(path.join(cacheDir, '.did-run'), '')
   const gatsbyProcess = execa.node(gatsbyCli, ['build', ...args], {
     env: {
       ENABLE_GATSBY_EXTERNAL_JOBS: '1',
@@ -131,16 +130,20 @@ async function run() {
   }
 
   gatsbyProcess.on('exit', async (code) => {
-    console.log('Gatsby exited with code', code)
+    if (code !== 0) {
+      console.log('Gatsby exited with code', code)
+      process.exit(code)
+    }
     console.log(
-      `Deferring processing ${imageCount} image${
+      `Deferred processing ${imageCount} image${
         imageCount === 1 ? '' : 's'
-      } until runtime. Moving ${origCount} originals`
+      } until runtime. Moved ${origCount} originals`
     )
 
     console.log(
       'Built site using the experimental Netlify Gatsby build runner. Please report any issues.'
     )
+    await writeFile(path.join(cacheDir, '.did-run'), '')
 
     process.exit(code)
   })
