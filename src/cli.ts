@@ -143,6 +143,7 @@ async function run() {
     console.log(
       'Built site using the experimental Netlify Gatsby build runner. Please report any issues.'
     )
+    await ensureDir(cacheDir)
     await writeFile(path.join(cacheDir, '.did-run'), '')
 
     process.exit(code)

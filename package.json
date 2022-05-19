@@ -10,10 +10,12 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
     "./handler": {
+      "types": "./dist/handler.d.ts",
       "require": "./dist/handler.js",
       "import": "./dist/handler.mjs"
     }
