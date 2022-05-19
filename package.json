@@ -28,11 +28,13 @@
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^17.0.34",
+    "gatsby-core-utils": "^3.14.0",
     "gatsby-plugin-sharp": "^4.14.1",
     "release-it": "^15.0.0",
     "tsup": "^5.12.8"
   },
   "peerDependencies": {
+    "gatsby-core-utils": "*",
     "gatsby-plugin-sharp": "*"
   },
   "scripts": {

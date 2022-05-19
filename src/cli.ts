@@ -3,7 +3,8 @@
 import execa from 'execa'
 import path from 'path'
 import fastq from 'fastq'
-import { writeJSON, ensureDir, copySync } from 'fs-extra'
+import { writeJSON, ensureDir, copy } from 'fs-extra'
+import { cpuCoreCount } from 'gatsby-core-utils'
 
 const MESSAGE_TYPES = {
   LOG_ACTION: `LOG_ACTION`,
@@ -18,13 +19,18 @@ const MESSAGE_TYPES = {
 
 async function run() {
   let imageCount = 0
+  let origCount = 0
   let gatsbyCli: string
+  const copyingFiles = new Map<string, Promise<void>>()
   try {
     gatsbyCli = require.resolve('gatsby/cli', { paths: [process.cwd()] })
   } catch (e) {
     console.error('Gatsby path not found', e)
     return
   }
+
+  const cores = cpuCoreCount(true)
+  console.log(`Detected ${cores} physical cores`)
 
   const [, , ...args] = process.argv
 
@@ -55,12 +61,20 @@ async function run() {
       originalImage,
       pluginOptions: args.pluginOptions,
     }
-    try {
-      // Async caused race condition errors
-      copySync(inputPath.path, originalFilename)
-    } catch (e) {
-      console.error('error copying', inputPath.path, 'to', originalFilename, e)
+    let promise = copyingFiles.get(originalFilename)
+    if (promise) {
+      await promise
+    } else {
+      origCount++
+      try {
+        promise = copy(inputPath.path, originalFilename)
+        copyingFiles.set(originalFilename, promise)
+        await promise
+      } catch (e) {
+        console.error(`Error copying ${inputPath.path} to ${originalFilename}`)
+      }
     }
+
     await ensureDir(jobDirname)
     imageCount++
     await Promise.all(
@@ -74,7 +88,7 @@ async function run() {
     )
   }
 
-  const queue = fastq.promise(handleImage, 10)
+  const queue = fastq.promise(handleImage, cores)
 
   async function messageHandler(message) {
     switch (message.type) {
@@ -118,7 +132,7 @@ async function run() {
     console.log(
       `Deferring processing ${imageCount} image${
         imageCount === 1 ? '' : 's'
-      } until runtime`
+      } until runtime. Moving ${origCount} originals`
     )
     process.exit(code)
   })
