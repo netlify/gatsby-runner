@@ -1,6 +1,6 @@
 import type { OnBuild } from '@netlify/build'
 import { existsSync } from 'fs'
-import { writeFile } from 'fs-extra'
+import { ensureDir, writeFile } from 'fs-extra'
 import { posix as path } from 'path'
 import { greenBright } from 'chalk'
 
@@ -18,6 +18,7 @@ export const onBuild: OnBuild = async ({ constants, netlifyConfig }) => {
     )
     return
   }
+  await ensureDir(constants.INTERNAL_FUNCTIONS_SRC)
   await writeFile(
     path.join(constants.INTERNAL_FUNCTIONS_SRC, 'gatsby-image.ts'),
     `export { handler } from '@netlify/gatsby-runner'`
