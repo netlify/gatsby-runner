@@ -6,19 +6,10 @@
     "gatsby-runner": "dist/cli.js"
   },
   "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
-    },
-    "./handler": {
-      "types": "./dist/handler.d.ts",
-      "require": "./dist/handler.js",
-      "import": "./dist/handler.mjs"
-    }
+    ".": "./dist/index.js",
+    "./handler": "./dist/handler.js"
   },
   "files": [
     "dist",
@@ -50,7 +41,7 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "build:lib": "tsup-node src/index.ts src/handler.ts --target node14 --format=cjs,esm --dts",
+    "build:lib": "tsup-node src/index.ts src/handler.ts --target node14  --dts",
     "build:cli": "tsup-node src/cli.ts --target node14",
     "build": "npm-run-all -s clean -p build:*",
     "release-it": "release-it --verbose",

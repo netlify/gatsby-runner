@@ -1,6 +1,6 @@
 import type { OnBuild } from '@netlify/build'
 import { existsSync } from 'fs'
-import { copy, ensureDir, writeFile } from 'fs-extra'
+import { copy, emptyDir, ensureDir, writeFile } from 'fs-extra'
 import { posix as path } from 'path'
 import { greenBright } from 'chalk'
 
@@ -23,6 +23,7 @@ export const onBuild: OnBuild = async ({ constants, netlifyConfig }) => {
     'gatsby-image'
   )
   await ensureDir(functionDir)
+  await emptyDir(functionDir)
   await writeFile(
     path.join(functionDir, 'gatsby-image.mjs'),
     `export { handler } from '@netlify/gatsby-runner/handler'`
