@@ -53,10 +53,16 @@
     "build:lib": "tsup-node src/index.ts src/handler.ts --target node14 --format=cjs,esm --dts",
     "build:cli": "tsup-node src/cli.ts --target node14",
     "build": "npm-run-all -s clean -p build:*",
-    "release": "release-it",
+    "release-it": "release-it --verbose",
+    "release": "run-s build release-it",
     "prepublishOnly": "npm run build"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "release-it": {
+    "npm": {
+      "skipChecks": true
+    }
   }
 }
