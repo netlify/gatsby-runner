@@ -2,6 +2,5 @@ node_modules
 .cache
 .netlify
 public
-e2e-tests/default/package-lock.json
 .DS_Store
 dist

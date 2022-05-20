@@ -9,10 +9,10 @@
   ],
   "scripts": {
     "develop": "gatsby develop",
-    "build:site": "../../dist/cli.js",
+    "build:site": "../../plugin/dist/cli.js",
     "start": "npm run develop",
     "build": "run-s build:runner build:site",
-    "build:runner": "cd ../../ && npm run build"
+    "build:runner": "yarn workspace @netlify/gatsby-runner build"
   },
   "dependencies": {
     "gatsby": "^4.8.0",
@@ -24,7 +24,7 @@
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
-    "@netlify/gatsby-runner": "file:../..",
+    "@netlify/gatsby-runner": "*",
     "@types/node": "^17.0.14",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",

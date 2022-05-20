@@ -1,62 +1,24 @@
 {
-  "name": "@netlify/gatsby-runner",
-  "version": "1.1.6",
-  "description": "CLI runner for Gatsby",
-  "bin": {
-    "gatsby-runner": "dist/cli.js"
+  "name": "gatsby-runner",
+  "version": "1.0.0",
+  "description": "This is an experimental build runner for Gatsby on Netlify, which can dramatically improve build times for sites with lots of images.",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
-    },
-    "./handler": {
-      "types": "./dist/handler.d.ts",
-      "require": "./dist/handler.js",
-      "import": "./dist/handler.mjs"
-    }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/netlify/gatsby-runner.git"
   },
-  "files": [
-    "dist",
-    "manifest.yml"
+  "author": "",
+  "private": true,
+  "workspaces": [
+    "demos/*",
+    "plugin"
   ],
   "license": "MIT",
-  "private": false,
-  "dependencies": {
-    "@netlify/functions": "^1.0.0",
-    "chalk": "^4.1.2",
-    "execa": "^5.0.0",
-    "fastq": "^1.11.0",
-    "fs-extra": "^10.0.0"
+  "bugs": {
+    "url": "https://github.com/netlify/gatsby-runner/issues"
   },
-  "devDependencies": {
-    "@netlify/build": "^27.1.2",
-    "@types/fs-extra": "^9.0.13",
-    "@types/node": "^17.0.34",
-    "gatsby-core-utils": "^3.14.0",
-    "gatsby-plugin-sharp": "^4.14.1",
-    "npm-run-all": "^4.1.5",
-    "release-it": "^15.0.0",
-    "rimraf": "^3.0.2",
-    "tsup": "^5.12.8"
-  },
-  "peerDependencies": {
-    "gatsby-core-utils": "*",
-    "gatsby-plugin-sharp": "*"
-  },
-  "scripts": {
-    "clean": "rimraf dist",
-    "build:lib": "tsup-node src/index.ts src/handler.ts --target node14 --format=cjs,esm --dts",
-    "build:cli": "tsup-node src/cli.ts --target node14",
-    "build": "npm-run-all -s clean -p build:*",
-    "release": "release-it",
-    "prepublishOnly": "npm run build"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+  "homepage": "https://github.com/netlify/gatsby-runner#readme"
 }
