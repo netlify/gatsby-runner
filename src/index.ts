@@ -20,8 +20,8 @@ export const onBuild: OnBuild = async ({ constants, netlifyConfig }) => {
   }
   await ensureDir(constants.INTERNAL_FUNCTIONS_SRC)
   await writeFile(
-    path.join(constants.INTERNAL_FUNCTIONS_SRC, 'gatsby-image.ts'),
-    `export { handler } from '@netlify/gatsby-runner'`
+    path.join(constants.INTERNAL_FUNCTIONS_SRC, 'gatsby-image.mjs'),
+    `export { handler } from '@netlify/gatsby-runner/handler'`
   )
   netlifyConfig.functions['gatsby-image'] = {
     external_node_modules: [
