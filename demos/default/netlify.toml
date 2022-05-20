@@ -6,4 +6,7 @@ command = "npm run build"
 package = "@netlify/plugin-gatsby"
 
 [[plugins]]
-package = "../.."
+package = "../../src/index.ts"
+
+[[plugins]]
+package = "@netlify/plugin-local-install-core"

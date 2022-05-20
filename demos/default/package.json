@@ -12,7 +12,7 @@
     "build:site": "../../dist/cli.js",
     "start": "npm run develop",
     "build": "run-s build:runner build:site",
-    "build:runner": "cd ../../ && npm ci && npm run build"
+    "build:runner": "cd ../../ && npm run build"
   },
   "dependencies": {
     "gatsby": "^4.8.0",
