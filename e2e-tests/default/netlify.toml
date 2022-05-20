@@ -1,0 +1,9 @@
+[build]
+publish = "public"
+command = "npm run build"
+
+[[plugins]]
+package = "@netlify/plugin-gatsby"
+
+[[plugins]]
+package = "../.."
