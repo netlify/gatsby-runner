@@ -60,9 +60,7 @@ async function imageHandler(event: HandlerEvent) {
   console.log(`[${event.httpMethod}] ${url.pathname}`)
   const [, , fileHash, queryHash] = url.pathname.split('/')
   let imageData
-  const dataFile = resolve(
-    `.cache/caches/gatsby-runner/${fileHash}/${queryHash}.json`
-  )
+  const dataFile = resolve(__dirname, `jobs/${fileHash}/${queryHash}.json`)
   if (!existsSync(dataFile)) {
     console.log(`Data file ${dataFile} does not exist`)
     return {

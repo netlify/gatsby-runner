@@ -1,6 +1,6 @@
 import type { OnBuild } from '@netlify/build'
 import { existsSync } from 'fs'
-import { ensureDir, writeFile } from 'fs-extra'
+import { copy, ensureDir, writeFile } from 'fs-extra'
 import { posix as path } from 'path'
 import { greenBright } from 'chalk'
 
@@ -18,11 +18,16 @@ export const onBuild: OnBuild = async ({ constants, netlifyConfig }) => {
     )
     return
   }
-  await ensureDir(constants.INTERNAL_FUNCTIONS_SRC)
+  const functionDir = path.join(
+    constants.INTERNAL_FUNCTIONS_SRC,
+    'gatsby-image'
+  )
+  await ensureDir(functionDir)
   await writeFile(
-    path.join(constants.INTERNAL_FUNCTIONS_SRC, 'gatsby-image.mjs'),
+    path.join(functionDir, 'gatsby-image.mjs'),
     `export { handler } from '@netlify/gatsby-runner/handler'`
   )
+  await copy(cacheDir, path.join(functionDir, 'jobs'))
   netlifyConfig.functions['gatsby-image'] = {
     external_node_modules: [
       'keyv',
@@ -30,7 +35,7 @@ export const onBuild: OnBuild = async ({ constants, netlifyConfig }) => {
       'pngquant-bin',
       'gatsby-core-utils',
     ],
-    included_files: [path.join(cacheDir, '**', '*.json')],
+    included_files: [path.join(functionDir, 'jobs', '**', '*.json')],
   }
   netlifyConfig.redirects.push({
     from: '/static/:sourceDigest/:queryDigest/:filename',
