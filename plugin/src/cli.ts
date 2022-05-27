@@ -31,6 +31,14 @@ async function run() {
     return
   }
 
+  let GATSBY_CPU_COUNT = process.env.GATSBY_CPU_COUNT
+
+  // If running in Netlify, set the default cpu count to physical cores - 2.
+  // This value has been tested and gives best peformance for most scenarios.
+  if (!GATSBY_CPU_COUNT && process.env.NETLIFY && !process.env.NETLIFY_LOCAL) {
+    const reportedCores = cpuCoreCount(true)
+    GATSBY_CPU_COUNT = Math.max(reportedCores - 2, 2).toString()
+  }
   const cores = cpuCoreCount()
 
   const [, , ...args] = process.argv
@@ -41,6 +49,7 @@ async function run() {
     env: {
       ENABLE_GATSBY_EXTERNAL_JOBS: '1',
       FORCE_COLOR: '1',
+      GATSBY_CPU_COUNT,
     },
   })
 
