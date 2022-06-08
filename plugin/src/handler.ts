@@ -79,15 +79,16 @@ async function imageHandler(event: HandlerEvent) {
     }
   }
 
-  const pathName = `${fileHash}/og/im/${imageData.originalImage}`
-
-  const originalImageURL = new URL(`/static/${pathName}`, url).toString()
+  const originalImageURL = new URL(
+    `/static/${imageData.sourceImage}`,
+    url
+  ).toString()
 
   console.log('Downloading original image', originalImageURL)
 
   const tmp = tmpdir()
 
-  const targetFile = join(tmp, pathName)
+  const targetFile = join(tmp, imageData.sourceImage)
   await ensureDir(path.dirname(targetFile))
   await downloadFile(originalImageURL, targetFile)
 

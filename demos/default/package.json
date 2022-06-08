@@ -15,20 +15,21 @@
     "build:runner": "yarn workspace @netlify/gatsby-runner build"
   },
   "dependencies": {
-    "gatsby": "^4.8.0",
-    "gatsby-plugin-image": "^2.8.0",
-    "gatsby-plugin-sharp": "^4.8.0",
-    "gatsby-source-filesystem": "^4.8.0",
-    "gatsby-transformer-sharp": "^4.8.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "gatsby": "^4.16.0",
+    "gatsby-plugin-image": "^2.16.0",
+    "gatsby-plugin-sharp": "^4.16.0",
+    "gatsby-source-filesystem": "^4.16.0",
+    "gatsby-transformer-sharp": "^4.16.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
   },
   "devDependencies": {
     "@netlify/gatsby-runner": "*",
-    "@types/node": "^17.0.14",
-    "@types/react": "^17.0.38",
-    "@types/react-dom": "^17.0.11",
+    "@netlify/plugin-gatsby": "^3.2.1",
+    "@types/node": "^17.0.41",
+    "@types/react": "^18.0.12",
+    "@types/react-dom": "^18.0.5",
     "npm-run-all": "^4.1.5",
-    "typescript": "^4.5.5"
+    "typescript": "4.6.4"
   }
 }

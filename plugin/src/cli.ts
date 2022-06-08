@@ -3,9 +3,13 @@
 import execa from 'execa'
 import path from 'path'
 import fastq from 'fastq'
-import { writeJSON, ensureDir, copy, writeFile } from 'fs-extra'
+import { writeJSON, ensureDir, copy, writeFile, readJSON } from 'fs-extra'
 import { cpuCoreCount } from 'gatsby-core-utils'
 import { green } from 'chalk'
+import { randomBytes } from 'crypto'
+import { existsSync } from 'fs'
+import { stripIndent } from 'common-tags'
+
 const MESSAGE_TYPES = {
   LOG_ACTION: `LOG_ACTION`,
   JOB_CREATED: `JOB_CREATED`,
@@ -15,6 +19,28 @@ const MESSAGE_TYPES = {
   ACTIVITY_END: `ACTIVITY_END`,
   ACTIVITY_SUCCESS: `ACTIVITY_SUCCESS`,
   ACTIVITY_ERROR: `ACTIVITY_ERROR`,
+}
+
+/**
+ * We do this to avoid creating a different dir each time we run the build
+ */
+async function getOriginalsDir(cacheDir: string) {
+  await ensureDir(cacheDir)
+  const metadataFile = path.join(cacheDir, 'metadata.json')
+  if (existsSync(metadataFile)) {
+    const metadata = await readJSON(metadataFile)
+    if (metadata.originalsDir) {
+      return metadata.originalsDir
+    }
+  }
+  const originalsDir = path.join(
+    'gatsby-image-originals',
+    randomBytes(32).toString('hex')
+  )
+  await writeJSON(metadataFile, {
+    originalsDir,
+  })
+  return originalsDir
 }
 
 async function run() {
@@ -44,6 +70,9 @@ async function run() {
   const [, , ...args] = process.argv
 
   const cacheDir = path.join(process.cwd(), '.cache', 'caches', 'gatsby-runner')
+
+  const originalsDir = await getOriginalsDir(cacheDir)
+
   await ensureDir(cacheDir)
   const gatsbyProcess = execa.node(gatsbyCli, ['build', ...args], {
     env: {
@@ -52,7 +81,7 @@ async function run() {
       GATSBY_CPU_COUNT,
     },
   })
-
+  // Pass through the logs
   gatsbyProcess.stdout.pipe(process.stdout)
 
   async function handleImage({
@@ -60,14 +89,23 @@ async function run() {
     inputPaths: { 0: inputPath },
     args,
   }) {
-    const jobDirname = path.join(cacheDir, path.basename(outputDir))
+    const fileHash = path.basename(outputDir)
+    const jobDirname = path.join(cacheDir, fileHash)
+
+    const inputFileDir = path.join(
+      path.dirname(outputDir),
+      originalsDir,
+      fileHash
+    )
+
     const originalImage = `${inputPath.contentDigest}${path.extname(
       inputPath.path
     )}`
-    const originalFilename = path.join(outputDir, 'og', 'im', originalImage)
+
+    const originalFilename = path.join(inputFileDir, originalImage)
 
     const jobData = {
-      originalImage,
+      sourceImage: `${originalsDir}/${fileHash}/${originalImage}`,
       pluginOptions: args.pluginOptions,
     }
     let promise = copyingFiles.get(originalFilename)
@@ -78,6 +116,8 @@ async function run() {
       try {
         promise = copy(inputPath.path, originalFilename)
         copyingFiles.set(originalFilename, promise)
+        console.log(`Copying ${inputPath.path} to ${originalFilename}`)
+
         await promise
       } catch (e) {
         console.error(`Error copying ${inputPath.path} to ${originalFilename}`)
@@ -148,7 +188,10 @@ async function run() {
     )
 
     console.log(
-      `Built site using the experimental ${green`Netlify Gatsby build runner`}. Please report any issues: https://ntl.fyi/gatsby-runner`
+      stripIndent`
+      Built site using the experimental ${green`Netlify Gatsby build runner`}. 
+      Please report any issues: https://ntl.fyi/gatsby-runner
+      `
     )
     await ensureDir(cacheDir)
     await writeFile(path.join(cacheDir, '.did-run'), '')
