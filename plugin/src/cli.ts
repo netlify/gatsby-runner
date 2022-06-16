@@ -3,12 +3,20 @@
 import execa from 'execa'
 import path from 'path'
 import fastq from 'fastq'
-import { writeJSON, ensureDir, copy, writeFile, readJSON } from 'fs-extra'
+import {
+  writeJSON,
+  ensureDir,
+  copy,
+  writeFile,
+  readJSON,
+  readFileSync,
+} from 'fs-extra'
 import { cpuCoreCount } from 'gatsby-core-utils'
 import { green } from 'chalk'
 import { randomBytes } from 'crypto'
 import { existsSync } from 'fs'
 import { stripIndent } from 'common-tags'
+import os from 'os'
 
 const MESSAGE_TYPES = {
   LOG_ACTION: `LOG_ACTION`,
@@ -19,6 +27,36 @@ const MESSAGE_TYPES = {
   ACTIVITY_END: `ACTIVITY_END`,
   ACTIVITY_SUCCESS: `ACTIVITY_SUCCESS`,
   ACTIVITY_ERROR: `ACTIVITY_ERROR`,
+}
+
+/**
+ * Calculate threads available to the build
+ */
+function getCpuAllocation() {
+  if (os.platform() !== 'linux') {
+    // We're not going to try to work out containers elsewhere
+    return 0
+  }
+  try {
+    // Allocation is "quota" per "period", which are both microseconds
+    const quotaString = readFileSync(
+      '/sys/fs/cgroup/cpu/cpu.cfs_quota_us',
+      'ascii'
+    )
+    const quota = Number(quotaString.trim())
+    if (quota === -1) {
+      // -1 means unrestricted
+      return 0
+    }
+    const periodString = readFileSync(
+      '/sys/fs/cgroup/cpu/cpu.cfs_period_us',
+      'ascii'
+    )
+    const period = Number(periodString.trim())
+    return quota / period
+  } catch (error) {
+    return 0
+  }
 }
 
 /**
@@ -63,9 +101,20 @@ async function run() {
   // This value has been tested and gives best peformance for most scenarios.
   if (!GATSBY_CPU_COUNT && process.env.NETLIFY && !process.env.NETLIFY_LOCAL) {
     const reportedCores = cpuCoreCount(true)
-    GATSBY_CPU_COUNT = Math.max(reportedCores - 2, 2).toString()
+    const threads = os.cpus().length
+    const threadsPerCore = threads / reportedCores
+
+    let cpuAllocation = getCpuAllocation()
+    cpuAllocation ||= threads
+    // We're spawning child processes, so want cores not threads
+    const coreAllocation = cpuAllocation / threadsPerCore
+    GATSBY_CPU_COUNT = String(coreAllocation)
   }
-  const cores = cpuCoreCount()
+  console.log(
+    `Detected ${GATSBY_CPU_COUNT} available core${
+      GATSBY_CPU_COUNT === '1' ? '' : 's'
+    }`
+  )
 
   const [, , ...args] = process.argv
 
@@ -116,8 +165,6 @@ async function run() {
       try {
         promise = copy(inputPath.path, originalFilename)
         copyingFiles.set(originalFilename, promise)
-        console.log(`Copying ${inputPath.path} to ${originalFilename}`)
-
         await promise
       } catch (e) {
         console.error(`Error copying ${inputPath.path} to ${originalFilename}`)
@@ -137,7 +184,7 @@ async function run() {
     )
   }
 
-  const queue = fastq.promise(handleImage, cores)
+  const queue = fastq.promise(handleImage, Number(GATSBY_CPU_COUNT))
 
   async function messageHandler(message) {
     switch (message.type) {
@@ -189,8 +236,10 @@ async function run() {
 
     console.log(
       stripIndent`
-      Built site using the experimental ${green`Netlify Gatsby build runner`}. 
+
+      🏃 Built site using the experimental ${green`Netlify Gatsby build runner`}
       Please report any issues: https://ntl.fyi/gatsby-runner
+
       `
     )
     await ensureDir(cacheDir)

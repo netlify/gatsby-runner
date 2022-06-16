@@ -4,7 +4,7 @@ import { copy, emptyDir, ensureDir, writeFile } from 'fs-extra'
 import { posix as path } from 'path'
 import { greenBright } from 'chalk'
 
-export const onBuild: OnBuild = async ({ constants, netlifyConfig }) => {
+export const onBuild: OnBuild = async ({ constants, netlifyConfig, utils }) => {
   const cacheDir = path.resolve(
     constants.PUBLISH_DIR,
     '..',
@@ -18,6 +18,12 @@ export const onBuild: OnBuild = async ({ constants, netlifyConfig }) => {
     )
     return
   }
+
+  utils.status.show({
+    title: '🏃 Built site with the experimental Netlify Gatsby build runner',
+    summary: 'Please report any issues: https://ntl.fyi/gatsby-runner',
+  })
+
   const functionDir = path.join(
     constants.INTERNAL_FUNCTIONS_SRC,
     'gatsby-image'
