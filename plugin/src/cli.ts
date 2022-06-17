@@ -104,8 +104,7 @@ async function run() {
     const threads = os.cpus().length
     const threadsPerCore = threads / reportedCores
 
-    let cpuAllocation = getCpuAllocation()
-    cpuAllocation ||= threads
+    const cpuAllocation = getCpuAllocation() || threads
     // We're spawning child processes, so want cores not threads
     const coreAllocation = cpuAllocation / threadsPerCore
     GATSBY_CPU_COUNT = String(coreAllocation)
