@@ -29,34 +29,37 @@ const MESSAGE_TYPES = {
   ACTIVITY_ERROR: `ACTIVITY_ERROR`,
 }
 
+function getNumberFromFilesystem(fsPath: string) {
+  try {
+    const stringValue = readFileSync(fsPath, 'ascii')
+    const numeric = Number(stringValue.trim())
+    if (isNaN(numeric)) {
+      return 0
+    }
+  } catch {
+    return 0
+  }
+}
 /**
- * Calculate threads available to the build
+ * Calculate threads available to the build using Linux scheduler settings.
  */
 function getCpuAllocation() {
   if (os.platform() !== 'linux') {
     // We're not going to try to work out containers elsewhere
     return 0
   }
-  try {
-    // Allocation is "quota" per "period", which are both microseconds
-    const quotaString = readFileSync(
-      '/sys/fs/cgroup/cpu/cpu.cfs_quota_us',
-      'ascii'
-    )
-    const quota = Number(quotaString.trim())
-    if (quota === -1) {
-      // -1 means unrestricted
-      return 0
-    }
-    const periodString = readFileSync(
-      '/sys/fs/cgroup/cpu/cpu.cfs_period_us',
-      'ascii'
-    )
-    const period = Number(periodString.trim())
-    return quota / period
-  } catch (error) {
+  // Allocation is "quota" per "period", which are both in microseconds
+  const quota = getNumberFromFilesystem('/sys/fs/cgroup/cpu/cpu.cfs_quota_us')
+  if (quota === -1) {
+    // -1 means unrestricted
     return 0
   }
+
+  const period = getNumberFromFilesystem('/sys/fs/cgroup/cpu/cpu.cfs_period_us')
+  if (!period) {
+    return 0
+  }
+  return quota / period
 }
 
 /**
@@ -85,6 +88,8 @@ async function run() {
   let imageCount = 0
   let origCount = 0
   let gatsbyCli: string
+  const threadCount = os.cpus().length
+
   const copyingFiles = new Map<string, Promise<void>>()
   console.log(`Building site with the ${green`Netlify Gatsby build runner`}.`)
 
@@ -97,20 +102,18 @@ async function run() {
 
   let GATSBY_CPU_COUNT = process.env.GATSBY_CPU_COUNT
 
-  // If running in Netlify, set the default cpu count to physical cores - 2.
-  // This value has been tested and gives best peformance for most scenarios.
+  // Find how many cores we have available
   if (!GATSBY_CPU_COUNT && process.env.NETLIFY && !process.env.NETLIFY_LOCAL) {
-    const reportedCores = cpuCoreCount(true)
-    const threads = os.cpus().length
-    const threadsPerCore = threads / reportedCores
+    const physicalCores = cpuCoreCount(true)
+    const threadsPerCore = threadCount / physicalCores
 
-    const cpuAllocation = getCpuAllocation() || threads
-    // We're spawning child processes, so want cores not threads
+    const cpuAllocation = getCpuAllocation() || threadCount
+    // Gatsby spawns child processes, so want cores not threads
     const coreAllocation = cpuAllocation / threadsPerCore
     GATSBY_CPU_COUNT = String(coreAllocation)
   }
   console.log(
-    `Detected ${GATSBY_CPU_COUNT} available core${
+    `Running Gatsby on ${GATSBY_CPU_COUNT} core${
       GATSBY_CPU_COUNT === '1' ? '' : 's'
     }`
   )
@@ -183,7 +186,7 @@ async function run() {
     )
   }
 
-  const queue = fastq.promise(handleImage, Number(GATSBY_CPU_COUNT))
+  const queue = fastq.promise(handleImage, threadCount)
 
   async function messageHandler(message) {
     switch (message.type) {
