@@ -44,7 +44,8 @@ export const onBuild: OnBuild = async ({ constants, netlifyConfig, utils }) => {
     ],
     included_files: [path.join(functionDir, 'jobs', '**', '*.json')],
   }
-  netlifyConfig.redirects.push({
+  // Needs to go first to avoid being overridden by catchall
+  netlifyConfig.redirects.unshift({
     from: '/static/:sourceDigest/:queryDigest/:filename',
     to: '/.netlify/builders/gatsby-image',
     status: 200,
