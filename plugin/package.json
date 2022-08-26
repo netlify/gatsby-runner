@@ -18,7 +18,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "@netlify/functions": "^1.0.0",
+    "@netlify/functions": "^1.2.0",
     "chalk": "^4.1.2",
     "execa": "^5.0.0",
     "fastq": "^1.11.0",
