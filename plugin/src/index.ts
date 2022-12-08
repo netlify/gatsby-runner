@@ -31,7 +31,7 @@ export const onBuild: OnBuild = async ({ constants, netlifyConfig, utils }) => {
   await ensureDir(functionDir)
   await emptyDir(functionDir)
   await writeFile(
-    path.join(functionDir, 'gatsby-image.mjs'),
+    path.join(functionDir, 'gatsby-image.ts'),
     `export { handler } from '@netlify/gatsby-runner/handler'`
   )
   await copy(cacheDir, path.join(functionDir, 'jobs'))
