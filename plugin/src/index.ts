@@ -36,12 +36,7 @@ export const onBuild: OnBuild = async ({ constants, netlifyConfig, utils }) => {
   )
   await copy(cacheDir, path.join(functionDir, 'jobs'))
   netlifyConfig.functions['gatsby-image'] = {
-    external_node_modules: [
-      'keyv',
-      'mozjpeg',
-      'pngquant-bin',
-      'gatsby-core-utils',
-    ],
+    node_bundler: 'nft',
     included_files: [path.join(functionDir, 'jobs', '**', '*.json')],
   }
   // Needs to go first to avoid being overridden by catchall
