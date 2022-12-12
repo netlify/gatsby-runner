@@ -36,8 +36,7 @@ const downloadFile = async (
         downloadingFiles.delete(url)
         reject(
           new Error(
-            `Failed to download ${url}: ${response.statusCode} ${
-              response.statusMessage || ''
+            `Failed to download ${url}: ${response.statusCode} ${response.statusMessage || ''
             }`
           )
         )
@@ -55,12 +54,12 @@ const downloadFile = async (
 // 6MB is hard max Lambda response size
 const MAX_RESPONSE_SIZE = 6291456
 
-async function imageHandler(event: HandlerEvent) {
+export const getImageHandler = (rootDirName: string) => async function imageHandler(event: HandlerEvent) {
   const url = new URL(event.rawUrl)
   console.log(`[${event.httpMethod}] ${url.pathname}`)
   const [, , fileHash, queryHash] = url.pathname.split('/')
   let imageData
-  const dataFile = resolve(process.cwd(), `jobs/${fileHash}/${queryHash}.json`)
+  const dataFile = resolve(rootDirName, `jobs/${fileHash}/${queryHash}.json`)
   console.log('DATA FILE TO RETRIEVE', dataFile)
   if (!existsSync(dataFile)) {
     console.log(`Data file ${dataFile} does not exist`)
@@ -140,5 +139,3 @@ async function imageHandler(event: HandlerEvent) {
     isBase64Encoded: true,
   }
 }
-
-export const handler = builder(imageHandler)
