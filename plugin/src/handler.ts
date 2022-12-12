@@ -54,7 +54,7 @@ const downloadFile = async (
 // 6MB is hard max Lambda response size
 const MAX_RESPONSE_SIZE = 6291456
 
-export const getImageHandler = (rootDirName: string) => async function imageHandler(event: HandlerEvent) {
+export const getImageHandler = (rootDirName: string) => builder(async function imageHandler(event: HandlerEvent) {
   const url = new URL(event.rawUrl)
   console.log(`[${event.httpMethod}] ${url.pathname}`)
   const [, , fileHash, queryHash] = url.pathname.split('/')
@@ -138,4 +138,4 @@ export const getImageHandler = (rootDirName: string) => async function imageHand
     body: readFileSync(outputPath, 'base64'),
     isBase64Encoded: true,
   }
-}
+})

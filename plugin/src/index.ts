@@ -34,6 +34,7 @@ export const onBuild: OnBuild = async ({ constants, netlifyConfig, utils }) => {
     path.join(functionDir, 'gatsby-image.js'),
     `
     const {getImageHander} = require('@netlify/gatsby-runner/handler')
+    
     module.exports = getImageHandler(__dirname)
     `
   )
