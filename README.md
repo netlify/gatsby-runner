@@ -30,3 +30,17 @@ You must then change your build command from `gatsby build` to `gatsby-runner`.
 The `gatsby-runner` script wraps the `gatsby cli`, and registers as a handler for Gatsby's jobs API. It listens for image processing jobs and then, rather than processing the image, it writes the job as a JSON file to the cache. It then generates a Netlify Function called `gatsby-image`, which includes all of the code required to process the image at runtime, as well as the JSON files containing the details of the image processing job.
 
 When a request is made for an image, it instead calls the `gatsby-image` function, which looks up the job for that image in the cache, loads the original image, and then processes and returns it. While this is slow for the first request, as the function is an [On-Demand Builder](https://docs.netlify.com/configure-builds/on-demand-builders/) that image is then cached at the edge for subsequent requests so is very fast.
+
+## Running Cypress tests locally
+
+In order to test the use of the plugin on the demo site within this repository, do the following first to get the demo site running (requires the [netlify-cli](https://cli.netlify.com/getting-started) to be installed):
+
+```
+cd demos/default
+netlify build
+netlify dev --framework=#static
+```
+
+This will build the demo site and then start a static HTTP server serving files from the publish directory rather than through the Gatsby server that starts with `gatsby develop` in order to test the behaviour introduced in the plugin such as redirects that are introduced [here](https://github.com/netlify/gatsby-runner/blob/bc0a740f34aae31c878518f2765e42ed5baeaba8/plugin/src/index.ts#L47-L51).
+
+Once that's running, in a separate shell, run `yarn cy:open`
