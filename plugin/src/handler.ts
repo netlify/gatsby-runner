@@ -60,7 +60,7 @@ export const getImageHandler = (rootDirName: string) => builder(async function i
   const [, , fileHash, queryHash] = url.pathname.split('/')
   let imageData
   const dataFile = resolve(rootDirName, `jobs/${fileHash}/${queryHash}.json`)
-  console.log('DATA FILE TO RETRIEVE', dataFile)
+
   if (!existsSync(dataFile)) {
     console.log(`Data file ${dataFile} does not exist`)
     return {
@@ -68,7 +68,7 @@ export const getImageHandler = (rootDirName: string) => builder(async function i
       body: 'Not found',
     }
   }
-  console.log('READING JSON')
+
   try {
     imageData = await readJson(dataFile)
   } catch (e) {
