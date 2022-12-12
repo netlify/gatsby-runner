@@ -1,6 +1,7 @@
 [build]
 publish = "public"
 command = "npm run build && ls -l public/static/gatsby-image-originals/**/*"
+ignore = "if [ $CACHED_COMMIT_REF == $COMMIT_REF ]; then (exit 1); else git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ../..; fi;"
 
 [[plugins]]
 package = "@netlify/plugin-gatsby"
