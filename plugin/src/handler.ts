@@ -60,7 +60,7 @@ async function imageHandler(event: HandlerEvent) {
   console.log(`[${event.httpMethod}] ${url.pathname}`)
   const [, , fileHash, queryHash] = url.pathname.split('/')
   let imageData
-  const dataFile = resolve(__dirname, `jobs/${fileHash}/${queryHash}.json`)
+  const dataFile = resolve(process.cwd(), `jobs/${fileHash}/${queryHash}.json`)
   console.log('DATA FILE TO RETRIEVE', dataFile)
   if (!existsSync(dataFile)) {
     console.log(`Data file ${dataFile} does not exist`)
