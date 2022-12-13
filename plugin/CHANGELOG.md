@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.14](https://github.com/netlify/gatsby-runner/compare/gatsby-runner-v1.1.13...gatsby-runner-v1.1.14) (2022-12-13)
+
+
+### Bug Fixes
+
+* pass in root directory name where image file can be found ([#113](https://github.com/netlify/gatsby-runner/issues/113)) ([552ab35](https://github.com/netlify/gatsby-runner/commit/552ab3536df691cd058f2355b407dcc0d53e9ce5))
+
 ## [1.1.13](https://github.com/netlify/gatsby-runner/compare/gatsby-runner-v1.1.12...gatsby-runner-v1.1.13) (2022-12-08)
 
 
