@@ -15,7 +15,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        containers: [1, 2]
+        # Can increase the containers as we add more tests 
+        containers: [1]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
