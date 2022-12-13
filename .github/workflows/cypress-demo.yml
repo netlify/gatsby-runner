@@ -8,6 +8,7 @@ on:
     paths:
       - 'demos/default/**/*.{ts,tsx}'
       - 'cypress/e2e/**/*.{ts}'
+      - 'plugin/src/**/*.{ts}'
 jobs:
   cypress:
     name: Cypress
