@@ -91,7 +91,7 @@ const IndexPage = () => {
         🎉🎉🎉
       </h1>
 
-      <StaticImage src="../images/icon.png" alt="Gatsby" />
+      <StaticImage src="../images/icon.png" alt="Gatsby logo" />
     </main>
   );
 };
