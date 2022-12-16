@@ -1906,7 +1906,7 @@
     moize "^6.1.3"
     path-exists "^5.0.0"
 
-"@netlify/ipx@^1.2.5":
+"@netlify/ipx@^1.3.0":
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/@netlify/ipx/-/ipx-1.3.2.tgz#7235999c19d50349a4407d9548a7d8037e33db2d"
   integrity sha512-IozNE8IDJiMsWvNG0HqSfArJKl1HhgvvPPNfWGieg5AIQzLxu57L7ol10DYBARsrVZWGZstM3J7sTaP6fbhdQw==
@@ -1927,13 +1927,13 @@
   resolved "https://registry.yarnpkg.com/@netlify/open-api/-/open-api-2.12.2.tgz#690e3375e37addba06f0ac60781d292a6210fb82"
   integrity sha512-yWTh9DPO4Gku0JB6DZarUq8/p2jamvVjbWyeYkHcBX6LW89F2blIx8aA9eSJVSScMgrH/FSQ1I8y1JL/SC73bg==
 
-"@netlify/plugin-gatsby@^3.4.8":
-  version "3.4.8"
-  resolved "https://registry.yarnpkg.com/@netlify/plugin-gatsby/-/plugin-gatsby-3.4.8.tgz#0370246de17b33564b0577dcdd094cac930bdd00"
-  integrity sha512-0fAoHu0mcEdnMnyduJMolJnYrv+mXiwRhOx6o86luslPn9xIDKLmTPoBvIBVrXv2M6RBTKLegJCjNRSWkuB8Qg==
+"@netlify/plugin-gatsby@^3.5.0":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@netlify/plugin-gatsby/-/plugin-gatsby-3.5.0.tgz#41da52c895b8e6e6c8663ce3defe244464b95f5d"
+  integrity sha512-wT6C5bkX7r7yZDbzGLPxUumBlEWHtLr/jsIWWzGDMGYMh7yP375gkcOFrMf8WstmnmgGGJO12LWSmjepxH0/zg==
   dependencies:
     "@netlify/functions" "^1.3.0"
-    "@netlify/ipx" "^1.2.5"
+    "@netlify/ipx" "^1.3.0"
     abortcontroller-polyfill "^1.7.3"
     chalk "^4.1.2"
     co-body "^6.1.0"
