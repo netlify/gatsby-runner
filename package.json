@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This is an experimental build runner for Gatsby on Netlify, which can dramatically improve build times for sites with lots of images.",
   "devDependencies": {
-    "@testing-library/cypress": "^8.0.7",
+    "@testing-library/cypress": "^9.0.0",
     "cypress": "^12.0.2"
   },
   "scripts": {
