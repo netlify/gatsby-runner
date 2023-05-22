@@ -312,6 +312,7 @@
   integrity sha512-r27t/cy/m9uKLXQNWWebeCUHgnAZq0CpG1OwKRxzJMP1vpSU4bSIK2hq+/cp0bQxetkXx38n09rNu8jVkcK/zA==
 
 "@babel/parser@^7.21.8", "@babel/parser_latest@npm:@babel/parser@7.21.8":
+  name "@babel/parser_latest"
   version "7.21.8"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.21.8.tgz#642af7d0333eab9c0ad70b14ac5e76dbde7bfdf8"
   integrity sha512-6zavDGdzG3gUqAdWvlLFfk+36RilI+Pwyuuh7HItyeScCWP3k6i8vKclAQ0bM/0y/Kz/xiwvxhMv9MgTJP5gmA==
@@ -7128,9 +7129,9 @@ gatsby-worker@^1.25.0:
     "@babel/runtime" "^7.15.4"
 
 gatsby@^4.16.0:
-  version "4.25.6"
-  resolved "https://registry.yarnpkg.com/gatsby/-/gatsby-4.25.6.tgz#1519be7cb429df13c110d921a0b9db68b8777260"
-  integrity sha512-6kkUBWtGgb+SMd36ZdHpFJ+f/sq62ngRMVkM0Tna5AKcGnzLZgnA1h9/OHlU3bSz9TGNsyRcU7yFSlwxmStQgw==
+  version "4.25.7"
+  resolved "https://registry.yarnpkg.com/gatsby/-/gatsby-4.25.7.tgz#56a0c7f9e25fcf895864d88fd648f97e26dd560f"
+  integrity sha512-kspM1XokxDw2YqC2hkPKQTfWSNSq/AnY8PNYSrUM+MCsyIKFuGqSVchNonZN1g8/nCoh4jQpBYXH5Uw2Hrs6Sw==
   dependencies:
     "@babel/code-frame" "^7.14.0"
     "@babel/core" "^7.15.5"
