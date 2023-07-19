@@ -2092,10 +2092,10 @@
   resolved "https://registry.yarnpkg.com/@netlify/open-api/-/open-api-2.19.1.tgz#041ddb16ba219332a256ce84dffc6fdd2c964922"
   integrity sha512-RkucRf8o0vYhCDXCRHWU/EdhkVE3JhkqKmZFvMW6qCPD206GV2Cfo9JGSKb0NdN+nmHSNaYmd+9dvT6I9MP4pw==
 
-"@netlify/plugin-gatsby@^3.6.3":
-  version "3.6.3"
-  resolved "https://registry.yarnpkg.com/@netlify/plugin-gatsby/-/plugin-gatsby-3.6.3.tgz#b9243ae38b0ed4daa48926fce93e440856ef5de9"
-  integrity sha512-i/vmZQlXwr3f2oBnyOEDS+newHbFB6oMJkp/GVA9LtqflsHVXk6lgGrqKaUumx931KVRDNcaaCvmV5xDAdRKpQ==
+"@netlify/plugin-gatsby@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@netlify/plugin-gatsby/-/plugin-gatsby-3.7.0.tgz#c9bf4f7b998a75228b0cf9b1f333365fa7a2ac50"
+  integrity sha512-K5ntO0kVWRcER2k74Pt3rMn/BJBs8p9iSOwWrNsdZcieFhHMdVyIUhK3+W4bX15TJUKSATtEsH6ygJB1gQMrPQ==
   dependencies:
     "@netlify/functions" "^1.6.0"
     "@netlify/ipx" "^1.4.1"
