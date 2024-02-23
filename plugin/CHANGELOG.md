@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.15](https://github.com/netlify/gatsby-runner/compare/gatsby-runner-v1.1.14...gatsby-runner-v1.1.15) (2024-02-23)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @netlify/functions to ^1.5.0 ([1712166](https://github.com/netlify/gatsby-runner/commit/1712166fb6596da48ce5ce39247807466cbfc4e4))
+* **deps:** update dependency @netlify/functions to ^1.6.0 ([330e1ca](https://github.com/netlify/gatsby-runner/commit/330e1ca9d8e5c732122ec3eb943423f9c85523a7))
+
 ## [1.1.14](https://github.com/netlify/gatsby-runner/compare/gatsby-runner-v1.1.13...gatsby-runner-v1.1.14) (2022-12-13)
 
 
